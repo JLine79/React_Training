@@ -1,54 +1,54 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class Counter extends Component {
-    state = {
-        count: 0,
-        tags: ['tag-1', 'tag-2', 'tag-3']
-    };
+  state = {
+    value: this.props.value,
+    id: this.props.id,
+  };
 
-    //constructor() {
-    //    super();
-    //    this.handleIncrement = this.handleIncrement.bind(this);
-    //}
+  //constructor() {
+  //    super();
+  //    this.handleIncrement = this.handleIncrement.bind(this);
+  //}
 
-    handleIncrement = () => {
-        this.setState({count: this.state.count + 1 });
-    };
+  handleIncrement = () => {
+    this.setState({ value: this.state.value + 1 });
+  };
 
-    renderTags() {
-        if (this.state.tags.length === 0) return <p>There are no tags!</p>;
+  render() {
+    return (
+      <React.Fragment>
+        <ul style={{ listStyleType: "none" }}>
+          <li>
+            <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+            <button
+              onClick={this.handleIncrement}
+              className="btn btn-secondary btn-sm"
+            >
+              Increment
+            </button>
+            <button
+              onClick={() => this.props.onDelete(this.props.id)}
+              className="btn btn-danger btn-sm m-2"
+            >
+              Delete
+            </button>
+          </li>
+        </ul>
+      </React.Fragment>
+    );
+  }
 
-        return <ul>
-            {this.state.tags.map(tag => <li key={tag}>{tag}</li>)}
-        </ul>;
-    };
+  getBadgeClasses() {
+    let classes = "badge m-2 bg-";
+    classes += this.state.value === 0 ? "warning" : "primary";
+    return classes;
+  }
 
-    render() {
-
-        return (
-            <React.Fragment>
-                {this.state.tags.length === 0 && "Please create a new tag!"}
-                {this.renderTags()}
-                <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-                <button 
-                  onClick={this.handleIncrement} 
-                  className="btn btn-secondary btn-sm">
-                    Increment
-                </button>
-            </React.Fragment>
-        );
-    }
-
-    getBadgeClasses() {
-        let classes = "badge m-2 bg-";
-        classes += (this.state.count === 0) ? "warning" : "primary";
-        return classes;
-    }
-
-    formatCount() {
-        const { count } = this.state;
-        return count === 0 ? "Zero" : count;
-    }
+  formatCount() {
+    const { value: count } = this.state;
+    return count === 0 ? "Zero" : count;
+  }
 }
 
 export default Counter;
